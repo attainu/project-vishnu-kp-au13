@@ -68,6 +68,32 @@ def doMove(playerId):
             cfg.players[playerId].coinPosition = ladderCoord[1]
             return
 
+def gameController():
+    getInputs()
+    displayInputs()
+    if(cfg.players_tot <= 0):
+        sys.exit("No one plays with me! :(")
+    cfg.currentPlayerIndex = 0
+
+    while(cfg.winner == -1):
+        doMove(cfg.currentPlayerIndex)
+
+        if(cfg.diceValue != 6):
+            cfg.players[cfg.currentPlayerIndex].streak = 0
+            cfg.currentPlayerIndex = cfg.currentPlayerIndex + 1
+            if(cfg.currentPlayerIndex >= cfg.players_tot):
+                cfg.currentPlayerIndex = 0
+        if(cfg.diceValue == 6):
+            if(cfg.players[cfg.currentPlayerIndex].streak < 3):
+                cfg.players[cfg.currentPlayerIndex].streak += 1
+            else:
+                cfg.players[cfg.currentPlayerIndex].coinPosition -=18
+                print("three consecutive 6s? you must be cheating...", cfg.players[cfg.currentPlayerIndex],'drops to', cfg.players[cfg.currentPlayerIndex].coinPosition)
+                cfg.currentPlayerIndex = cfg.currentPlayerIndex + 1
+                if(cfg.currentPlayerIndex >= cfg.players_tot):
+                    cfg.currentPlayerIndex = 0
+gameController()
+
 
 
 
