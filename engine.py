@@ -47,6 +47,28 @@ def checkForWinner(player):
         print(player.name, "has won the game")
         sys.exit()
 
+def doMove(playerId):
+    cfg.diceValue = random.randint(1, 6)
+    initialPosition = cfg.players[playerId].coinPosition
+    cfg.players[playerId].coinPosition += cfg.diceValue
+    checkForWinner(cfg.players[playerId])
+    print(cfg.players[playerId].name, "has rolled a",
+          cfg.diceValue, "and moved from", initialPosition, "to", cfg.players[playerId].coinPosition)
+    for snakeCoord in cfg.snake_pos:
+        if(snakeCoord[0] == cfg.players[playerId].coinPosition):
+            print("Oh no! a wild snake at",
+                  snakeCoord[0], 'bit', cfg.players[playerId].name)
+            cfg.players[playerId].coinPosition = snakeCoord[1]
+            print(cfg.players[playerId].name, "drops to", snakeCoord[1])
+            return
+    for ladderCoord in cfg.ladder_pos:
+        if(ladderCoord[0] == cfg.players[playerId].coinPosition):
+            print(cfg.players[playerId].name,
+                  "has found a ladder and advances to", ladderCoord[1])
+            cfg.players[playerId].coinPosition = ladderCoord[1]
+            return
+
+
 
 
 
