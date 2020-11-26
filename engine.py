@@ -38,4 +38,15 @@ def getInputs():
 def displayInputs():
     print(cfg.ladder_pos, cfg.snake_pos, cfg.player_names)
 
+def checkForWinner(player):
+    if(player.coinPosition > (cfg.grid_x * cfg.grid_y)):
+        player.coinPosition -= cfg.diceValue
+    if(player.coinPosition == (cfg.grid_x * cfg.grid_y)):
+        cfg.winner = player.name
+        print(player.name, "has rolled a", cfg.diceValue, "and moved from", player.coinPosition - cfg.diceValue, "to", player.coinPosition)
+        print(player.name, "has won the game")
+        sys.exit()
+
+
+
 
